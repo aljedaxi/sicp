@@ -4,33 +4,35 @@
 ; use ctrl-alt-y to insert a λ
 ; to make a new file, try ctrl-x ctrl-d
 
-(define (inc n) (+ n 1))
-(define (cube n) (* n n n))
+(define (inc n)
+  (+ n 1))
+(define (cube n)
+  (* n n n))
 
 (define (sum term a next b)
   (if (> a b)
       0
-      (+ (term a)
-         (sum term (next a) next b))))
+      (+ (term a) (sum term (next a) next b))))
 
 (define (iterative-sum term a next b)
   (define (iter a result)
-    (if (> a b) result
+    (if (> a b)
+        result
         (iter (next a) (+ result (term a)))))
   (iter a 0))
 
 ; (accumulate combiner null-term a next b)
 (define (accumulate combiner null-term term a next b)
   (define (iter a result)
-    (if (> a b) result
+    (if (> a b)
+        result
         (iter (next a) (combiner result (term a)))))
-    (iter a null-term))
+  (iter a null-term))
 
 (define (recursive-acc combiner null-term term a next b)
   (if (> a b)
       null-term
-      (combiner (term a)
-                (recursive-acc combiner null-term term (next a) next b))))
+      (combiner (term a) (recursive-acc combiner null-term term (next a) next b))))
 
 (define (acc-sum term a next b)
   (accumulate + 0 term a next b))
@@ -44,10 +46,13 @@
 (define (average-damp f)
   (lambda (x) (average x (f x))))
 
-(define (double f) (lambda (x) (f (f x))))
+(define (double f)
+  (lambda (x) (f (f x))))
 ;(((double (double double)) inc) 5)
-(define (square n) (* n n))
-(define (compose f g) (lambda (x) (f (g x))))
+(define (square n)
+  (* n n))
+(define (compose f g)
+  (lambda (x) (f (g x))))
 (define (repeated f n)
   (if (= 1 n)
       f
